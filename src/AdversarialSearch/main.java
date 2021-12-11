@@ -6,8 +6,8 @@ public class main {
         Player min=new Player();
         Game game=new Game(max,min);
         game.printGameBoard();
-        if(1==1){
-
-        }
+        AlphaBetaPruning alphaBetaPruning=new AlphaBetaPruning();
+        int a=alphaBetaPruning.runGame(game,Integer.MIN_VALUE,Integer.MAX_VALUE,true);
+        System.out.println(a);
     }
 }

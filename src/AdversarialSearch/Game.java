@@ -20,6 +20,7 @@ public class Game {
         if (player==1){
             currentPlayer=1;
             int loop=max.nodes.get(position).gems;
+            this.printGameBoard();
             int currentPos=position;
             int currentUser=player;
             max.nodes.get(position).gems=0;
@@ -221,4 +222,20 @@ public class Game {
         return g;
     }
 
+    boolean checkZeroAtPosition(int player,int pos){
+        if(player==1) {
+            if (max.nodes.get(pos).gems == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else {
+            if (max.nodes.get(pos).gems == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }

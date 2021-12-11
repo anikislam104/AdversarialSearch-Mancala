@@ -65,31 +65,31 @@ public class Game {
             int currentPos=position;
             int currentUser=player;
             for (int i=0;i<loop;i++){
-                if (currentPos < 5 && currentUser==player) {
+                if (currentPos > 0 && currentUser==player) {
                     min.nodes.get(position).gems=0;
-                    min.nodes.get(currentPos+1).gems+=1;
-                    currentPos++;
-                }
-
-                else if (currentPos==5 && currentUser==player){
-                    min.mancala.gems+=1;
-                    currentPos++;
-                }
-
-                else if (currentPos==6 && currentUser==player){
-                    currentUser=1;
-                    currentPos=5;
-                    max.nodes.get(currentPos).gems+=1;
-                }
-
-                else if (currentPos>0 && currentUser==player-1){
                     min.nodes.get(currentPos-1).gems+=1;
                     currentPos--;
                 }
 
-                else if (currentPos==0 && currentUser==player-1){
-                    currentUser=player;
+                else if (currentPos==0 && currentUser==player){
+                    min.mancala.gems+=1;
+                    currentPos--;
+                }
+
+                else if (currentPos==-1 && currentUser==player){
+                    currentUser=1;
                     currentPos=0;
+                    max.nodes.get(currentPos).gems+=1;
+                }
+
+                else if (currentPos<5 && currentUser==player-1){
+                    max.nodes.get(currentPos+1).gems+=1;
+                    currentPos++;
+                }
+
+                else if (currentPos==5 && currentUser==player-1){
+                    currentUser=player;
+                    currentPos=5;
                     min.nodes.get(currentPos).gems+=1;
                 }
             }
@@ -151,5 +151,24 @@ public class Game {
         }
     }
 
-
+    void printGameBoard(){
+        System.out.println("Gameboard:");
+        System.out.print("      ");
+        for (int i=0;i<6;i++){
+            System.out.print(min.nodes.get(i).gems+"  ");
+        }
+        System.out.println();
+        System.out.print(min.mancala.gems+"  ");
+        for (int i=0;i<6;i++){
+            System.out.print("   ");
+        }
+        System.out.print("     "+max.mancala.gems+"  ");
+        System.out.println();
+        System.out.print("      ");
+        for (int i=0;i<6;i++){
+            System.out.print(max.nodes.get(i).gems+"  ");
+        }
+        System.out.println();
+    }
 }
+//    int i=5;i>-1;i--

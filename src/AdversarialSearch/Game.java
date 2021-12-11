@@ -3,14 +3,22 @@ package AdversarialSearch;
 public class Game {
     Player max;
     Player min;
-
+    int currentPlayer;
     public Game(Player max, Player min) {
         this.max = max;
         this.min = min;
     }
 
-    int moveGems(int player,int position){
+    public Game() {
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    int moveGems(int player, int position){
         if (player==1){
+            currentPlayer=1;
             int loop=max.nodes.get(position).gems;
             int currentPos=position;
             int currentUser=player;
@@ -50,6 +58,7 @@ public class Game {
             }
 
             if (currentPos == 6){
+                currentPlayer=1;
                 return 1;
             }
 
@@ -58,15 +67,18 @@ public class Game {
                 int gemTaken=min.nodes.get(currentPos).gems;
                 min.nodes.get(currentPos).gems=0;
                 max.mancala.gems+=1+gemTaken;
+                currentPlayer=2;
                 return 0;
             }
 
             else {
+                currentPlayer=2;
                 return 0;
             }
         }
 
         else if (player==2){
+            currentPlayer=2;
             int loop=min.nodes.get(position).gems;
             int currentPos=position;
             int currentUser=player;
@@ -108,6 +120,7 @@ public class Game {
             }
 //            this.printGameBoard();
             if (currentPos == -1){
+                currentPlayer=2;
                 return 1;
             }
 
@@ -116,12 +129,14 @@ public class Game {
                 int gemTaken=max.nodes.get(currentPos).gems;
                 max.nodes.get(currentPos).gems=0;
                 min.mancala.gems+=1+gemTaken;
+                currentPlayer=1;
                // System.out.println(max.nodes.get(1).gems);
                 return 0;
 
             }
 
             else {
+                currentPlayer=1;
                 return 0;
             }
         }
@@ -186,4 +201,24 @@ public class Game {
         }
         System.out.println();
     }
+
+    int heuristicONE(int player){
+        if (player==1){
+            return max.mancala.gems-min.mancala.gems;
+        }
+        else {
+            return min.mancala.gems-max.mancala.gems;
+        }
+    }
+
+    Game getChildAtPosition(Game game,int position,int player){
+        Player maxi=game.max;
+        Player mini=game.min;
+        Game g=new Game();
+        g.max=maxi;
+        g.min=mini;
+        g.moveGems(player,position);
+        return g;
+    }
+
 }

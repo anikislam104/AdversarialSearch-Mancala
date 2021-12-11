@@ -11,7 +11,7 @@ public class AlphaBetaPruning {
         if(mancala.isGameOver()==true && mancala.max.mancala.gems>mancala.min.mancala.gems ){
             return mancala.heuristicONE(1);
         }
-        else if(maxPlayer==true){
+        if(maxPlayer==true){
             int maxEval=Integer.MIN_VALUE;
             game=mancala;
             for(int i=0;i<6;i++){

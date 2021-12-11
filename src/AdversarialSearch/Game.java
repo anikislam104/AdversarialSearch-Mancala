@@ -7,6 +7,8 @@ public class Game {
     public Game(Player max, Player min) {
         this.max = max;
         this.min = min;
+        max.opponent=min;
+        currentPlayer=1;
     }
 
     public Game() {
@@ -153,7 +155,7 @@ public class Game {
         }
         if (check==1){
             for (int i=0;i<6;i++){
-                max.mancala.gems+=min.nodes.get(i).gems;
+                min.mancala.gems+=min.nodes.get(i).gems;
                 min.nodes.get(i).gems=0;
             }
             return true;
@@ -166,7 +168,7 @@ public class Game {
         }
         if (check==1){
             for (int i=0;i<6;i++){
-                min.mancala.gems+=max.nodes.get(i).gems;
+                max.mancala.gems+=max.nodes.get(i).gems;
                 max.nodes.get(i).gems=0;
             }
             return true;
@@ -237,5 +239,44 @@ public class Game {
                 return false;
             }
         }
+    }
+
+    int alphaBeta(Game game,int alpha,int beta,Player winner,Player loser){
+        if(game.isGameOver()){
+            return game.heuristicONE(1);
+        }
+        if(game.currentPlayer==1){
+            int bestValue=Integer.MIN_VALUE;
+            for (int i=0;i<6;i++){
+                if(game.checkZeroAtPosition(1,i)==false){
+                    Game child=game.getChildAtPosition(game,i,1);
+                    int value=game.alphaBeta(child,alpha,beta,game.max,game.min);
+                    child.printGameBoard();
+                    bestValue=Math.max(bestValue,value);
+                    alpha=Math.max(alpha,bestValue);
+                    if(beta<=alpha){
+                        break;
+                    }
+                }
+            }
+            return bestValue;
+        }
+        else {
+            int bestValue=Integer.MAX_VALUE;
+            for (int i=0;i<6;i++){
+                if (game.checkZeroAtPosition(2,i)==false){
+                    Game child=game.getChildAtPosition(game,i,2);
+                    int value=game.alphaBeta(child,alpha,beta,game.min,game.max);
+                    child.printGameBoard();
+                    bestValue=Math.min(bestValue,value);
+                    beta=Math.min(beta,bestValue);
+                    if (beta<=alpha){
+                        break;
+                    }
+                }
+            }
+            return bestValue;
+        }
+//        return 0;
     }
 }

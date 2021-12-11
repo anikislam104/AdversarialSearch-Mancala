@@ -150,4 +150,6 @@ public class Game {
             return min.mancala.gems;
         }
     }
+
+
 }

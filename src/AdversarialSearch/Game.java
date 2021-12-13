@@ -1,5 +1,8 @@
 package AdversarialSearch;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Game {
     Player max;
     Player min;
@@ -248,6 +251,7 @@ public class Game {
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
             int[] arr = new int[] {0,1,5,4,3,2};
+            arr=shuffleArray(arr);
             for (int i=5;i>-1;i--){
                 //System.out.println(arr[i]);
                 if(game.checkZeroAtPosition(1,arr[i])==false){
@@ -271,6 +275,7 @@ public class Game {
         else {
             int bestValue=Integer.MAX_VALUE;
             int[] arr = new int[] { 2,1,0,4,5,3};
+            arr=shuffleArray(arr);
             for (int i=5;i>-1;i--){
                 if (game.checkZeroAtPosition(2,arr[i])==false){
                     System.out.println("game");
@@ -290,5 +295,18 @@ public class Game {
             return bestValue;
         }
 //        return 0;
+    }
+
+    static int[] shuffleArray(int[] ar){
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = ar.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            int a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+        return ar;
     }
 }

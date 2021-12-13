@@ -246,7 +246,7 @@ public class Game {
 
     int alphaBeta(Game game,int alpha,int beta){
         if(game.isGameOver()){
-            return game.heuristicONE(1);
+            return game.heuristicTWO(game);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
@@ -308,5 +308,16 @@ public class Game {
             ar[i] = a;
         }
         return ar;
+    }
+
+    int heuristicTWO(Game game){
+        int myGem=0,hisGem=0;
+        for (int i=0;i<6;i++){
+            myGem+=game.max.nodes.get(i).gems;
+            hisGem+=game.min.nodes.get(i).gems;
+        }
+        int h1=2*(myGem-hisGem);
+        int h2=3*(game.max.mancala.gems-game.min.mancala.gems);
+        return h1+h2;
     }
 }

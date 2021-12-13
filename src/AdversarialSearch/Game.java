@@ -241,16 +241,24 @@ public class Game {
         }
     }
 
-    int alphaBeta(Game game,int alpha,int beta,Player winner,Player loser){
+    int alphaBeta(Game game,int alpha,int beta){
         if(game.isGameOver()){
-            return game.heuristicONE(1);
+            int c=0;
+            if(game.max.mancala.gems>game.min.mancala.gems){
+                c=1;
+            }
+            else{
+                c=2;
+            }
+            return game.heuristicONE(c);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
             for (int i=0;i<6;i++){
                 if(game.checkZeroAtPosition(1,i)==false){
+                    game.printGameBoard();
                     Game child=game.getChildAtPosition(game,i,1);
-                    int value=game.alphaBeta(child,alpha,beta,game.max,game.min);
+                    int value=game.alphaBeta(child,alpha,beta);
                     child.printGameBoard();
                     bestValue=Math.max(bestValue,value);
                     alpha=Math.max(alpha,bestValue);
@@ -265,8 +273,9 @@ public class Game {
             int bestValue=Integer.MAX_VALUE;
             for (int i=0;i<6;i++){
                 if (game.checkZeroAtPosition(2,i)==false){
+                    game.printGameBoard();
                     Game child=game.getChildAtPosition(game,i,2);
-                    int value=game.alphaBeta(child,alpha,beta,game.min,game.max);
+                    int value=game.alphaBeta(child,alpha,beta);
                     child.printGameBoard();
                     bestValue=Math.min(bestValue,value);
                     beta=Math.min(beta,bestValue);

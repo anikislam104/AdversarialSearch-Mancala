@@ -22,7 +22,7 @@ public class Game {
         if (player==1){
             currentPlayer=1;
             int loop=max.nodes.get(position).gems;
-            this.printGameBoard();
+            //this.printGameBoard();
             int currentPos=position;
             int currentUser=player;
             max.nodes.get(position).gems=0;
@@ -243,22 +243,21 @@ public class Game {
 
     int alphaBeta(Game game,int alpha,int beta){
         if(game.isGameOver()){
-            int c=0;
-            if(game.max.mancala.gems>game.min.mancala.gems){
-                c=1;
-            }
-            else{
-                c=2;
-            }
-            return game.heuristicONE(c);
+            return game.heuristicONE(1);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
-            for (int i=0;i<6;i++){
-                if(game.checkZeroAtPosition(1,i)==false){
+            int[] arr = new int[] {0,1,5,4,3,2};
+            for (int i=5;i>-1;i--){
+                //System.out.println(arr[i]);
+                if(game.checkZeroAtPosition(1,arr[i])==false){
+                    System.out.println("game");
                     game.printGameBoard();
-                    Game child=game.getChildAtPosition(game,i,1);
+                    Game child=game.getChildAtPosition(game,arr[i],1);
+                    child.printGameBoard();
                     int value=game.alphaBeta(child,alpha,beta);
+                    System.out.println("child");
+                    System.out.println("value= "+value);
                     child.printGameBoard();
                     bestValue=Math.max(bestValue,value);
                     alpha=Math.max(alpha,bestValue);
@@ -271,11 +270,15 @@ public class Game {
         }
         else {
             int bestValue=Integer.MAX_VALUE;
-            for (int i=0;i<6;i++){
-                if (game.checkZeroAtPosition(2,i)==false){
+            int[] arr = new int[] { 2,1,0,4,5,3};
+            for (int i=5;i>-1;i--){
+                if (game.checkZeroAtPosition(2,arr[i])==false){
+                    System.out.println("game");
                     game.printGameBoard();
-                    Game child=game.getChildAtPosition(game,i,2);
+                    Game child=game.getChildAtPosition(game,arr[i],2);
                     int value=game.alphaBeta(child,alpha,beta);
+                    System.out.println("child");
+                    System.out.println("value= "+value);
                     child.printGameBoard();
                     bestValue=Math.min(bestValue,value);
                     beta=Math.min(beta,bestValue);

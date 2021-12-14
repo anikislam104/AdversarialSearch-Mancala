@@ -300,7 +300,7 @@ public class Game {
                 System.out.println(children.get(i).currentPlayer);
                 int value=this.alphaBeta(children.get(i),alpha,beta);
                 bestValue=Math.max(bestValue,value);
-                this.setHeuristicValue(children.get(i),bestValue);
+                //this.setHeuristicValue(children.get(i),bestValue);
                 alpha=Math.max(alpha,bestValue);
                 if(beta<=alpha){
                     break;

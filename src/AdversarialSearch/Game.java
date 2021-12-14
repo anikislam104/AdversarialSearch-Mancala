@@ -7,11 +7,13 @@ public class Game {
     Player max;
     Player min;
     int currentPlayer;
+    int additionalMove;
     public Game(Player max, Player min) {
         this.max = max;
         this.min = min;
         max.opponent=min;
         currentPlayer=1;
+        additionalMove=0;
     }
 
     public Game() {
@@ -65,6 +67,7 @@ public class Game {
 
             if (currentPos == 6){
                 currentPlayer=1;
+                additionalMove++;
                 return 1;
             }
 
@@ -74,11 +77,13 @@ public class Game {
                 min.nodes.get(currentPos).gems=0;
                 max.mancala.gems+=1+gemTaken;
                 currentPlayer=2;
+                additionalMove=0;
                 return 0;
             }
 
             else {
                 currentPlayer=2;
+                additionalMove=0;
                 return 0;
             }
         }
@@ -127,6 +132,7 @@ public class Game {
 //            this.printGameBoard();
             if (currentPos == -1){
                 currentPlayer=2;
+                additionalMove++;
                 return 1;
             }
 
@@ -136,6 +142,7 @@ public class Game {
                 max.nodes.get(currentPos).gems=0;
                 min.mancala.gems+=1+gemTaken;
                 currentPlayer=1;
+                additionalMove=0;
                // System.out.println(max.nodes.get(1).gems);
                 return 0;
 
@@ -143,6 +150,7 @@ public class Game {
 
             else {
                 currentPlayer=1;
+                additionalMove=0;
                 return 0;
             }
         }
@@ -208,13 +216,8 @@ public class Game {
         System.out.println();
     }
 
-    int heuristicONE(int player){
-        if (player==1){
-            return max.mancala.gems-min.mancala.gems;
-        }
-        else {
-            return min.mancala.gems-max.mancala.gems;
-        }
+    int heuristicONE(Game game){
+        return game.max.mancala.gems-game.min.mancala.gems;
     }
 
     Game getChildAtPosition(Game game,int position,int player){
@@ -246,7 +249,7 @@ public class Game {
 
     int alphaBeta(Game game,int alpha,int beta){
         if(game.isGameOver()){
-            return game.heuristicTWO(game);
+            return game.heuristics(3,game);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
@@ -319,5 +322,25 @@ public class Game {
         int h1=2*(myGem-hisGem);
         int h2=3*(game.max.mancala.gems-game.min.mancala.gems);
         return h1+h2;
+    }
+
+    int heuristics(int num,Game game){
+        if(num==1){
+            return game.max.mancala.gems-game.min.mancala.gems;
+        }
+        else if (num==2){
+            int myGem=0,hisGem=0;
+            for (int i=0;i<6;i++){
+                myGem+=game.max.nodes.get(i).gems;
+                hisGem+=game.min.nodes.get(i).gems;
+            }
+            int h1=2*(myGem-hisGem);
+            int h2=3*(game.max.mancala.gems-game.min.mancala.gems);
+            return h1+h2;
+        }
+        else if(num==3){
+            return this.heuristicTWO(game)+5*additionalMove;
+        }
+        return 0;
     }
 }

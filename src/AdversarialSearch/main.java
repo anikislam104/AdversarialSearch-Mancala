@@ -4,12 +4,13 @@ public class main {
     public static void main(String[] args) {
 
         int maxWin=0,minWin=0;
-        for(int i=0;i<100;i++) {
+        for(int i=0;i<1;i++) {
             Player max=new Player();
             Player min=new Player();
             Game game=new Game(max,min);
             //game.printGameBoard();
             int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            //Game.printPath(a);
             if(a>0){
                 maxWin++;
             }

@@ -10,7 +10,7 @@ public class Game {
     int currentPlayer;
     int additionalMove;
     int heuristicValue;
-    ArrayList<Game> games=new ArrayList<>();
+    static ArrayList<Game> games=new ArrayList<>();
     public Game(Player max, Player min) {
         this.max = max;
         this.min = min;
@@ -26,23 +26,24 @@ public class Game {
         this.currentPlayer = currentPlayer;
     }
 
-    int moveGems(int player, int position){
+    int moveGems(int player, int position,Game game){
+        game.printGameBoard();
         if (player==1){
             currentPlayer=1;
-            int loop=max.nodes.get(position).gems;
+            int loop=game.max.nodes.get(position).gems;
             //this.printGameBoard();
             int currentPos=position;
             int currentUser=player;
-            max.nodes.get(position).gems=0;
+            game.max.nodes.get(position).gems=0;
             for (int i=0;i<loop;i++){
                 if (currentPos < 5 && currentUser==player) {
-                    max.nodes.get(currentPos+1).gems+=1;
+                    game.max.nodes.get(currentPos+1).gems+=1;
                     currentPos++;
                    // System.out.println(max.nodes.get(1).gems);
                 }
 
                 else if (currentPos==5 && currentUser==player){
-                    max.mancala.gems+=1;
+                    game.max.mancala.gems+=1;
                     currentPos++;
                    // System.out.println(max.nodes.get(1).gems);
                 }
@@ -50,12 +51,12 @@ public class Game {
                 else if (currentPos==6 && currentUser==player){
                     currentUser=2;
                     currentPos=5;
-                    min.nodes.get(currentPos).gems+=1;
+                    game.min.nodes.get(currentPos).gems+=1;
                    // System.out.println(max.nodes.get(1).gems);
                 }
 
                 else if (currentPos>0 && currentUser==player+1){
-                    min.nodes.get(currentPos-1).gems+=1;
+                    game.min.nodes.get(currentPos-1).gems+=1;
                     currentPos--;
                   //  System.out.println(max.nodes.get(1).gems);
                 }
@@ -63,7 +64,7 @@ public class Game {
                 else if (currentPos==0 && currentUser==player+1){
                     currentUser=player;
                     currentPos=0;
-                    max.nodes.get(currentPos).gems+=1;
+                    game.max.nodes.get(currentPos).gems+=1;
                    // System.out.println(max.nodes.get(1).gems);
                 }
             }
@@ -74,11 +75,11 @@ public class Game {
                 return 1;
             }
 
-            else if(currentUser==player && max.nodes.get(currentPos).gems==1 && min.nodes.get(currentPos).gems!=0){
-                max.nodes.get(currentPos).gems=0;
-                int gemTaken=min.nodes.get(currentPos).gems;
-                min.nodes.get(currentPos).gems=0;
-                max.mancala.gems+=1+gemTaken;
+            else if(currentUser==player && game.max.nodes.get(currentPos).gems==1 && game.min.nodes.get(currentPos).gems!=0){
+                game.max.nodes.get(currentPos).gems=0;
+                int gemTaken=game.min.nodes.get(currentPos).gems;
+                game.min.nodes.get(currentPos).gems=0;
+                game.max.mancala.gems+=1+gemTaken;
                 currentPlayer=2;
                 additionalMove=0;
                 return 0;
@@ -93,20 +94,20 @@ public class Game {
 
         else if (player==2){
             currentPlayer=2;
-            int loop=min.nodes.get(position).gems;
+            int loop=game.min.nodes.get(position).gems;
             int currentPos=position;
             int currentUser=player;
-            min.nodes.get(position).gems=0;
+            game.min.nodes.get(position).gems=0;
             for (int i=0;i<loop;i++){
                 if (currentPos > 0 && currentUser==player) {
-                    min.nodes.get(position).gems=0;
-                    min.nodes.get(currentPos-1).gems+=1;
+                    game.min.nodes.get(position).gems=0;
+                    game.min.nodes.get(currentPos-1).gems+=1;
                     currentPos--;
                    // System.out.println(max.nodes.get(1).gems);
                 }
 
                 else if (currentPos==0 && currentUser==player){
-                    min.mancala.gems+=1;
+                    game.min.mancala.gems+=1;
                     currentPos--;
                    // System.out.println(max.nodes.get(1).gems);
                 }
@@ -115,12 +116,12 @@ public class Game {
                     currentUser=1;
                     currentPos=0;
                    // System.out.println(max.nodes.get(1).gems);
-                    max.nodes.get(currentPos).gems+=1;
+                    game.max.nodes.get(currentPos).gems+=1;
                 }
 
                 else if (currentPos<5 && currentUser==player-1){
 
-                    max.nodes.get(currentPos+1).gems+=1;
+                    game.max.nodes.get(currentPos+1).gems+=1;
                    // System.out.println(max.nodes.get(1).gems);
                     currentPos++;
                 }
@@ -128,7 +129,7 @@ public class Game {
                 else if (currentPos==5 && currentUser==player-1){
                     currentUser=player;
                     currentPos=5;
-                    min.nodes.get(currentPos).gems+=1;
+                    game.min.nodes.get(currentPos).gems+=1;
                  //   System.out.println(max.nodes.get(1).gems);
                 }
             }
@@ -139,11 +140,11 @@ public class Game {
                 return 1;
             }
 
-            else if(currentUser==player && min.nodes.get(currentPos).gems==1 && max.nodes.get(currentPos).gems!=0){
-                min.nodes.get(currentPos).gems=0;
-                int gemTaken=max.nodes.get(currentPos).gems;
-                max.nodes.get(currentPos).gems=0;
-                min.mancala.gems+=1+gemTaken;
+            else if(currentUser==player && game.min.nodes.get(currentPos).gems==1 && game.max.nodes.get(currentPos).gems!=0){
+                game.min.nodes.get(currentPos).gems=0;
+                int gemTaken=game.max.nodes.get(currentPos).gems;
+                game.max.nodes.get(currentPos).gems=0;
+                game.min.mancala.gems+=1+gemTaken;
                 currentPlayer=1;
                 additionalMove=0;
                // System.out.println(max.nodes.get(1).gems);
@@ -229,7 +230,10 @@ public class Game {
         Game g=new Game();
         g.max=maxi;
         g.min=mini;
-        g.moveGems(player,position);
+
+        g.moveGems(player,position,g);
+        //game.printGameBoard();
+        //g.printGameBoard();
         return g;
     }
 
@@ -251,59 +255,101 @@ public class Game {
     }
 
     int alphaBeta(Game game,int alpha,int beta){
+        game.printGameBoard();
         if(game.isGameOver()){
-            return game.heuristics(1,game);
+            //this.printPath(game.heuristics(1,game));
+            return game.heuristics(2,game);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
             int[] arr = new int[] {0,1,5,4,3,2};
             arr=shuffleArray(arr);
-            for (int i=5;i>-1;i--){
-                //System.out.println(arr[i]);
-                if(game.checkZeroAtPosition(1,arr[i])==false){
-//                    System.out.println("game");
-//                    game.printGameBoard();
-                    Game child=game.getChildAtPosition(game,arr[i],1);
-//                    child.printGameBoard();
-                    int value=game.alphaBeta(child,alpha,beta);
-//                    System.out.println("child");
-//                    System.out.println("value= "+value);
-//                    child.printGameBoard();
-                    bestValue=Math.max(bestValue,value);
-                    game.heuristicValue=bestValue;
-                    games.add(game);
-                    alpha=Math.max(alpha,bestValue);
-                    if(beta<=alpha){
-                        break;
-                    }
+            ArrayList<Game> children=new ArrayList<>();
+
+
+
+
+            for (int j=0;j<6;j++){
+                Game save=new Game();
+                Player temp1=new Player();
+                Player temp2=new Player();
+                for (int i=0;i<6;i++){
+                    temp1.nodes.get(i).gems=game.max.nodes.get(i).gems;
+                    temp2.nodes.get(i).gems=game.min.nodes.get(i).gems;
+                }
+                temp1.mancala.gems=game.max.mancala.gems;
+                temp2.mancala.gems=game.min.mancala.gems;
+                save.max=temp1;
+                save.min=temp2;
+                if(!save.checkZeroAtPosition(1, arr[j])) {
+                    children.add(save.getChildAtPosition(save, arr[j], 1));
                 }
             }
-//            System.out.println(bestValue);
+
+
+
+            games.add(game);
+            game.printGameBoard();
+            for (int i=0;i<children.size();i++){
+                int value=game.alphaBeta(children.get(i),alpha,beta);
+                bestValue=Math.max(bestValue,value);
+                this.setHeuristicValue(children.get(i),bestValue);
+                alpha=Math.max(alpha,bestValue);
+                if(beta<=alpha){
+                    break;
+                }
+
+            }
+
+
             return bestValue;
         }
         else {
             int bestValue=Integer.MAX_VALUE;
             int[] arr = new int[] { 2,1,0,4,5,3};
             arr=shuffleArray(arr);
-            for (int i=5;i>-1;i--){
-                if (game.checkZeroAtPosition(2,arr[i])==false){
-//                    System.out.println("game");
-//                    game.printGameBoard();
-                    Game child=game.getChildAtPosition(game,arr[i],2);
-                    int value=game.alphaBeta(child,alpha,beta);
-//                    System.out.println("child");
-//                    System.out.println("value= "+value);
-//                    child.printGameBoard();
+            ArrayList<Game> children=new ArrayList<>();
+
+            //childern list
+
+            for (int j=0;j<6;j++){
+                Game save=new Game();
+                Player temp1=new Player();
+                Player temp2=new Player();
+                for (int i=0;i<6;i++){
+                    temp1.nodes.get(i).gems=game.max.nodes.get(i).gems;
+                    temp2.nodes.get(i).gems=game.min.nodes.get(i).gems;
+                }
+                temp1.mancala.gems=game.max.mancala.gems;
+                temp2.mancala.gems=game.min.mancala.gems;
+                save.max=temp1;
+                save.min=temp2;
+                if(!save.checkZeroAtPosition(1, arr[j])) {
+//                System.out.println("children no: "+(i+1));
+                    children.add(save.getChildAtPosition(save, arr[j], 1));
+//                game.printGameBoard();
+                    //save.getChildAtPosition(save, arr[j], 1).printGameBoard();
+                }
+            }
+
+
+
+            games.add(game);
+            game.printGameBoard();
+            for (int i=0;i<children.size();i++){
+                 //   children.get(i).printGameBoard();
+                    int value=game.alphaBeta(children.get(i),alpha,beta);
+               // children.get(i).printGameBoard();
                     bestValue=Math.min(bestValue,value);
-                    game.heuristicValue=bestValue;
-                    games.add(game);
+
                     beta=Math.min(beta,bestValue);
                     if (beta<=alpha){
                         break;
                     }
-                }
+
             }
 //            System.out.println(bestValue);
+            //this.setHeuristicValue(game,bestValue);
             return bestValue;
         }
 //        return 0;
@@ -353,5 +399,21 @@ public class Game {
         return 0;
     }
 
+    static void printPath(int h){
+        System.out.println(games.size());
+        for (int i=0;i<games.size();i++){
+            System.out.println(games.get(i).heuristicValue+"  "+h);
+            if(games.get(i).heuristicValue==h){
+                games.get(i).printGameBoard();
+            }
+        }
+    }
 
+    void setHeuristicValue(Game game,int h){
+        for(int i=0;i<games.size();i++){
+            if(games.get(i)==game){
+                games.get(i).heuristicValue=h;
+            }
+        }
+    }
 }

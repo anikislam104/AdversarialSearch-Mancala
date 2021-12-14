@@ -1,5 +1,6 @@
 package AdversarialSearch;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -8,6 +9,8 @@ public class Game {
     Player min;
     int currentPlayer;
     int additionalMove;
+    int heuristicValue;
+    ArrayList<Game> games=new ArrayList<>();
     public Game(Player max, Player min) {
         this.max = max;
         this.min = min;
@@ -249,7 +252,7 @@ public class Game {
 
     int alphaBeta(Game game,int alpha,int beta){
         if(game.isGameOver()){
-            return game.heuristics(3,game);
+            return game.heuristics(1,game);
         }
         if(game.currentPlayer==1){
             int bestValue=Integer.MIN_VALUE;
@@ -258,21 +261,24 @@ public class Game {
             for (int i=5;i>-1;i--){
                 //System.out.println(arr[i]);
                 if(game.checkZeroAtPosition(1,arr[i])==false){
-                    System.out.println("game");
-                    game.printGameBoard();
+//                    System.out.println("game");
+//                    game.printGameBoard();
                     Game child=game.getChildAtPosition(game,arr[i],1);
-                    child.printGameBoard();
+//                    child.printGameBoard();
                     int value=game.alphaBeta(child,alpha,beta);
-                    System.out.println("child");
-                    System.out.println("value= "+value);
-                    child.printGameBoard();
+//                    System.out.println("child");
+//                    System.out.println("value= "+value);
+//                    child.printGameBoard();
                     bestValue=Math.max(bestValue,value);
+                    game.heuristicValue=bestValue;
+                    games.add(game);
                     alpha=Math.max(alpha,bestValue);
                     if(beta<=alpha){
                         break;
                     }
                 }
             }
+//            System.out.println(bestValue);
             return bestValue;
         }
         else {
@@ -281,20 +287,23 @@ public class Game {
             arr=shuffleArray(arr);
             for (int i=5;i>-1;i--){
                 if (game.checkZeroAtPosition(2,arr[i])==false){
-                    System.out.println("game");
-                    game.printGameBoard();
+//                    System.out.println("game");
+//                    game.printGameBoard();
                     Game child=game.getChildAtPosition(game,arr[i],2);
                     int value=game.alphaBeta(child,alpha,beta);
-                    System.out.println("child");
-                    System.out.println("value= "+value);
-                    child.printGameBoard();
+//                    System.out.println("child");
+//                    System.out.println("value= "+value);
+//                    child.printGameBoard();
                     bestValue=Math.min(bestValue,value);
+                    game.heuristicValue=bestValue;
+                    games.add(game);
                     beta=Math.min(beta,bestValue);
                     if (beta<=alpha){
                         break;
                     }
                 }
             }
+//            System.out.println(bestValue);
             return bestValue;
         }
 //        return 0;
@@ -335,12 +344,14 @@ public class Game {
                 hisGem+=game.min.nodes.get(i).gems;
             }
             int h1=2*(myGem-hisGem);
-            int h2=3*(game.max.mancala.gems-game.min.mancala.gems);
+            int h2=30*(game.max.mancala.gems-game.min.mancala.gems);
             return h1+h2;
         }
         else if(num==3){
-            return this.heuristicTWO(game)+5*additionalMove;
+            return this.heuristicTWO(game)+100*additionalMove;
         }
         return 0;
     }
+
+
 }

@@ -8,7 +8,7 @@ public class main {
             Player max=new Player();
             Player min=new Player();
             Game game=new Game(max,min);
-            game.printGameBoard();
+            //game.printGameBoard();
             int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE);
             if(a>0){
                 maxWin++;

@@ -10,6 +10,7 @@ public class Game {
     int currentPlayer;
     int additionalMove;
     int heuristicValue;
+    Game parent;
     static ArrayList<Game> games=new ArrayList<>();
     public Game(Player max, Player min) {
         this.max = max;
@@ -259,7 +260,7 @@ public class Game {
 
     int alphaBeta(Game game,int alpha,int beta,int curPlayer,int depth){
         if(game.isGameOver() || depth==0){
-            return game.heuristics(1,game);
+            return game.heuristics(3,game);
         }
 
         if(curPlayer==1){
@@ -267,6 +268,7 @@ public class Game {
             int[] arr = new int[] {0,1,5,4,3,2};
             arr=shuffleArray(arr);
             ArrayList<Game> children=new ArrayList<>();
+            int count=0;
             for (int j=0;j<6;j++){
                 Game save=new Game();
                 Player temp1=new Player();
@@ -281,16 +283,19 @@ public class Game {
                 save.min=temp2;
                 if(!save.checkZeroAtPosition(1, arr[j])) {
                     children.add(save.getChildAtPosition(save, arr[j], 1));
+                    children.get(count).parent=game;
+                    games.add(children.get(count));
+                    //children.get(count).printGameBoard();
+                    count++;
                 }
             }
             //games.add(game);
             for (int i=0;i<children.size();i++){
-                game.printGameBoard();
-                System.out.println("current: "+curPlayer);
-                children.get(i).printGameBoard();
                 int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
-//                children.get(i).printGameBoard();
+                children.get(i).heuristicValue=value;
 //                System.out.println(value);
+//                games.add(children.get(i));
+
                 bestValue=Math.max(bestValue,value);
                 alpha=Math.max(alpha,bestValue);
                 if(beta<=alpha){
@@ -305,6 +310,7 @@ public class Game {
             int[] arr = new int[] { 2,1,0,4,5,3};
             arr=shuffleArray(arr);
             ArrayList<Game> children=new ArrayList<>();
+            int count=0;
             for (int j=0;j<6;j++){
                 Game save=new Game();
                 Player temp1=new Player();
@@ -319,18 +325,17 @@ public class Game {
                 save.min=temp2;
                 if(!save.checkZeroAtPosition(2, arr[j])) {
                     children.add(save.getChildAtPosition(save, arr[j], 2));
+                    children.get(count).parent=game;
+                    games.add(children.get(count));
+                    //children.get(count).printGameBoard();
+                    count++;
                 }
             }
             //games.add(game);
             for (int i=0;i<children.size();i++){
-                game.printGameBoard();
-                System.out.println("current: "+curPlayer);
-                children.get(i).printGameBoard();
+
                     int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
-////                children.get(i).heuristicValue=value;
-////                games.add(children.get(i));
-//                children.get(i).printGameBoard();
-//                System.out.println(value);
+                    children.get(i).heuristicValue=value;
                     bestValue=Math.min(bestValue,value);
                     beta=Math.min(beta,bestValue);
                     if (beta<=alpha){

@@ -2,25 +2,15 @@ package AdversarialSearch;
 
 public class main {
     public static void main(String[] args) {
-
-        int maxWin=0,minWin=0;
-        for(int i=0;i<1;i++) {
-            Player max=new Player();
-            Player min=new Player();
-            Game game=new Game(max,min);
-            //game.printGameBoard();
-            int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            //Game.printPath(a);
-            if(a>0){
-                maxWin++;
-            }
-            else {
-                minWin++;
-            }
-        }
-        System.out.println("maxWin= "+maxWin);
-        System.out.println("minWin= "+minWin);
-//        int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE);
-//        System.out.println(a);
+        Player max=new Player();
+        Player min=new Player();
+        Game game=new Game(max,min);
+        int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE,1,2);
+     System.out.println(Game.games.size());
+        System.out.println(a);
+//        for(int j=0;j<Game.games.size();j++){
+//            Game.games.get(j).printGameBoard();
+//            System.out.println(Game.games.get(j).heuristicValue);
+//        }
     }
 }

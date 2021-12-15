@@ -254,24 +254,19 @@ public class Game {
         }
     }
 
-    int alphaBeta(Game game,int alpha,int beta){
-        //game.printGameBoard();
-//        if(games.size()>5){
-//            return 0;
-//        }
-        if(game.isGameOver()){
-            //this.printPath(game.heuristics(1,game));
-            return game.heuristics(2,game);
+
+
+
+    int alphaBeta(Game game,int alpha,int beta,int curPlayer,int depth){
+        if(game.isGameOver() || depth==0){
+            return game.heuristics(1,game);
         }
 
-        System.out.println("game cur p: "+game.currentPlayer);
-
-        if(game.currentPlayer==1){
+        if(curPlayer==1){
             int bestValue=Integer.MIN_VALUE;
             int[] arr = new int[] {0,1,5,4,3,2};
             arr=shuffleArray(arr);
             ArrayList<Game> children=new ArrayList<>();
-
             for (int j=0;j<6;j++){
                 Game save=new Game();
                 Player temp1=new Player();
@@ -288,39 +283,28 @@ public class Game {
                     children.add(save.getChildAtPosition(save, arr[j], 1));
                 }
             }
-
-
-
-            games.add(game);
-            //game.printGameBoard();
+            //games.add(game);
             for (int i=0;i<children.size();i++){
-                System.out.println("game and child");
                 game.printGameBoard();
+                System.out.println("current: "+curPlayer);
                 children.get(i).printGameBoard();
-                System.out.println(children.get(i).currentPlayer);
-                int value=this.alphaBeta(children.get(i),alpha,beta);
+                int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
+//                children.get(i).printGameBoard();
+//                System.out.println(value);
                 bestValue=Math.max(bestValue,value);
-                //this.setHeuristicValue(children.get(i),bestValue);
                 alpha=Math.max(alpha,bestValue);
                 if(beta<=alpha){
                     break;
                 }
 
             }
-
-
             return bestValue;
         }
-
-
-
         else {
             int bestValue=Integer.MAX_VALUE;
             int[] arr = new int[] { 2,1,0,4,5,3};
             arr=shuffleArray(arr);
             ArrayList<Game> children=new ArrayList<>();
-
-
             for (int j=0;j<6;j++){
                 Game save=new Game();
                 Player temp1=new Player();
@@ -337,29 +321,24 @@ public class Game {
                     children.add(save.getChildAtPosition(save, arr[j], 2));
                 }
             }
-
-
-
-            games.add(game);
-
+            //games.add(game);
             for (int i=0;i<children.size();i++){
-                System.out.println("game and child");
                 game.printGameBoard();
+                System.out.println("current: "+curPlayer);
                 children.get(i).printGameBoard();
-                System.out.println(children.get(i).currentPlayer);
-                    int value=this.alphaBeta(children.get(i),alpha,beta);
+                    int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
+////                children.get(i).heuristicValue=value;
+////                games.add(children.get(i));
+//                children.get(i).printGameBoard();
+//                System.out.println(value);
                     bestValue=Math.min(bestValue,value);
-
                     beta=Math.min(beta,bestValue);
                     if (beta<=alpha){
                         break;
                     }
-
             }
-
             return bestValue;
         }
-//        return 0;
     }
 
     static int[] shuffleArray(int[] ar){
@@ -423,4 +402,6 @@ public class Game {
             }
         }
     }
+
+
 }

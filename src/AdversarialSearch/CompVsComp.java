@@ -28,7 +28,7 @@ public class CompVsComp {
                     break;
                 }
                 //System.out.println("game:" + loop + "  " + currentPlayer);
-                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, 6);
+                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, 7);
                 for (int i = 0; i < Game.games.size(); i++) {
                     if (Game.games.get(i).parent == game && Game.games.get(i).heuristicValue == a) {
                         Game.games.get(i).printGameBoard();

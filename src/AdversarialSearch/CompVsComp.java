@@ -13,14 +13,16 @@ public class CompVsComp {
                 //game.printGameBoard();
                 if (game.isGameOver()) {
                     if (game.max.mancala.gems > game.min.mancala.gems) {
+                        System.out.println("Max won");
                         maxWin++;
                     } else {
+                        System.out.println("Min won");
                         minWin++;
                     }
                     break;
                 }
-                System.out.println("game:" + loop + "  " + currentPlayer);
-                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, 4);
+                //System.out.println("game:" + loop + "  " + currentPlayer);
+                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, 6);
                 for (int i = 0; i < Game.games.size(); i++) {
                     if (Game.games.get(i).parent == game && Game.games.get(i).heuristicValue == a) {
                         Game.games.get(i).printGameBoard();

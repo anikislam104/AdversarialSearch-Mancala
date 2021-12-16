@@ -9,6 +9,12 @@ public class UserVsComp {
             System.out.println("Input depth");
             Scanner d=new Scanner(System.in);
             int depth=d.nextInt();
+            System.out.println("1.Difference of stones in storage");
+            System.out.println("2.Weighted difference in bins + weighted difference in storage");
+            System.out.println("3.Weighted difference in bins + weighted difference in storage + weight*additional moves earned");
+            System.out.println("4.stones in storage");
+            System.out.println("5.Stones close to storage + number of stolen stones");
+            System.out.println("6.Number of stolen stones");
             System.out.println("Which Heuristic:");
             int h=d.nextInt();
             int maxWin=0,minWin=0;

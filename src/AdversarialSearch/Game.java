@@ -268,9 +268,9 @@ public class Game {
 
 
 
-    int alphaBeta(Game game,int alpha,int beta,int curPlayer,int depth){
+    int alphaBeta(Game game,int alpha,int beta,int curPlayer,int depth,int h){
         if(game.isGameOver() || depth==0){
-            return game.heuristics(3,game);
+            return game.heuristics(h,game);
         }
 
         if(curPlayer==1){
@@ -301,7 +301,7 @@ public class Game {
             }
             //games.add(game);
             for (int i=0;i<children.size();i++){
-                int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
+                int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1,h);
 //                children.get(i).heuristicValue=value;
                 children.get(i).setHeuristicValue(children.get(i),game,value);
 //                System.out.println(value);
@@ -345,7 +345,7 @@ public class Game {
             //games.add(game);
             for (int i=0;i<children.size();i++){
 
-                    int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1);
+                    int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1,h);
                     children.get(i).setHeuristicValue(children.get(i),game,value);
                     bestValue=Math.min(bestValue,value);
                     beta=Math.min(beta,bestValue);

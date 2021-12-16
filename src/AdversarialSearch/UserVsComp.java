@@ -9,6 +9,8 @@ public class UserVsComp {
             System.out.println("Input depth");
             Scanner d=new Scanner(System.in);
             int depth=d.nextInt();
+            System.out.println("Which Heuristic:");
+            int h=d.nextInt();
             int maxWin=0,minWin=0;
             Player max=new Player();
             Player min=new Player();
@@ -31,7 +33,7 @@ public class UserVsComp {
                     //System.out.println("game:" + loop + "  " + currentPlayer);
                     System.out.println("Currently playing:Computer");
                     System.out.println();
-                    int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth);
+                    int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth,h);
                     for (int i = 0; i < Game.games.size(); i++) {
                         if (Game.games.get(i).parent == game && Game.games.get(i).heuristicValue == a) {
                             Game.games.get(i).printGameBoard();

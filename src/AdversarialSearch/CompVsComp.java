@@ -1,8 +1,15 @@
 package AdversarialSearch;
 
+import java.util.Scanner;
+
 public class CompVsComp {
     public static void main(String[] args) {
         int maxWin=0,minWin=0;
+        System.out.println("Input depth");
+        Scanner scanner=new Scanner(System.in);
+        int depth=scanner.nextInt();
+        System.out.println("Which Heuristic:");
+        int h=scanner.nextInt();
         for (int x=0;x<100;x++) {
             Player max=new Player();
             Player min=new Player();
@@ -28,7 +35,7 @@ public class CompVsComp {
                     break;
                 }
                 //System.out.println("game:" + loop + "  " + currentPlayer);
-                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, 7);
+                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth,h);
                 for (int i = 0; i < Game.games.size(); i++) {
                     if (Game.games.get(i).parent == game && Game.games.get(i).heuristicValue == a) {
                         Game.games.get(i).printGameBoard();

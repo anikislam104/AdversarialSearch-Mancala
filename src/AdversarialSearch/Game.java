@@ -381,12 +381,12 @@ public class Game {
                 myGem+=game.max.nodes.get(i).gems;
                 hisGem+=game.min.nodes.get(i).gems;
             }
-            int h1=2*(myGem-hisGem);
-            int h2=30*(game.max.mancala.gems-game.min.mancala.gems);
+            int h1=50*(myGem-hisGem);
+            int h2=50*(game.max.mancala.gems-game.min.mancala.gems);
             return h1+h2;
         }
         else if(num==3){
-            return this.heuristicTWO(game)+100*additionalMove;
+            return this.heuristicTWO(game)+50*additionalMove;
         }
         return 0;
     }

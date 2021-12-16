@@ -7,7 +7,13 @@ public class CompVsComp {
             Player max=new Player();
             Player min=new Player();
             Game game=new Game(max,min);
-            int currentPlayer=1;
+            int currentPlayer;
+            if(x%2==0){
+                currentPlayer=1;
+            }
+            else {
+                currentPlayer=2;
+            }
             int loop=0;
             while (true) {
                 //game.printGameBoard();

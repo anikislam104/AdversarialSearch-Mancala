@@ -40,6 +40,8 @@ public class CompVsComp {
                 }
                 loop++;
             }
+            Game.maxAdditionalMove=0;
+            Game.minAdditionalMove=0;
         }
         System.out.println("maxWin= "+maxWin);
         System.out.println("minWIn= "+minWin);

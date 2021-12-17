@@ -8,13 +8,13 @@ public class CompVsComp {
         System.out.println("Input depth");
         Scanner scanner=new Scanner(System.in);
         int depth=scanner.nextInt();
-        System.out.println("1.Difference of stones in storage");
+        System.out.println("1.Difference between stones in storage");
         System.out.println("2.Weighted difference in bins + weighted difference in storage");
-        System.out.println("3.Weighted difference in bins + weighted difference in storage + weight*additional moves earned");
-        System.out.println("4.stones in storage");
-        System.out.println("5.Stones close to storage + number of stolen stones");
-        System.out.println("6.Number of stolen stones");
-        System.out.println("Which Heuristic:");
+        System.out.println("3.Weighted difference in bins + weighted difference in storage + weight*additional moves earned so far");
+        System.out.println("4.additional moves possible in this turn");
+        System.out.println("5.Difference between number of stolen stones");
+        System.out.println("6.Difference between stones close to storage");
+        System.out.println("Heuristic:");
         int h=scanner.nextInt();
         for (int x=0;x<100;x++) {
             Player max=new Player();
@@ -45,7 +45,7 @@ public class CompVsComp {
                     break;
                 }
                 //System.out.println("game:" + loop + "  " + currentPlayer);
-                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth,h);
+                int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth, h);
                 //System.out.println("heuristic value "+a);
                 Game.maxAdditionalMove+=game.hasFreeMoves(game);
                 for (int i = 0; i < Game.games.size(); i++) {

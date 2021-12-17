@@ -9,19 +9,20 @@ public class UserVsComp {
             System.out.println("Input depth");
             Scanner d=new Scanner(System.in);
             int depth=d.nextInt();
-            System.out.println("1.Difference of stones in storage");
+            System.out.println("1.Difference between stones in storage");
             System.out.println("2.Weighted difference in bins + weighted difference in storage");
-            System.out.println("3.Weighted difference in bins + weighted difference in storage + weight*additional moves earned");
-            System.out.println("4.stones in storage");
-            System.out.println("5.Stones close to storage + number of stolen stones");
-            System.out.println("6.Number of stolen stones");
+            System.out.println("3.Weighted difference in bins + weighted difference in storage + weight*additional moves earned so far");
+            System.out.println("4.additional moves possible in this turn");
+            System.out.println("5.Difference between number of stolen stones");
+            System.out.println("6.Difference between stones close to storage");
             System.out.println("Which Heuristic:");
             int h=d.nextInt();
             int maxWin=0,minWin=0,draw=0;
             Player max=new Player();
             Player min=new Player();
             Game game=new Game(max,min);
-            int currentPlayer=2;
+            System.out.println("Who is playing first? 1.Computer   2.User");
+            int currentPlayer=d.nextInt();
             int loop=0;
             game.printGameBoard();
             while (true) {
@@ -50,7 +51,7 @@ public class UserVsComp {
                             game = Game.games.get(i);
                             currentPlayer = game.currentPlayer;
                             Game.games.clear();
-                            Thread.sleep(3000);
+                            Thread.sleep(1000);
                             break;
                         }
                     }
@@ -71,7 +72,7 @@ public class UserVsComp {
                         game.moveGems(2, input, game);
                         game.printGameBoard();
                         currentPlayer = game.currentPlayer;
-                        Thread.sleep(3000);
+                        Thread.sleep(1000);
                     }
                 }
                 loop++;

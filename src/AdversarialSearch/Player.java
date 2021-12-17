@@ -7,6 +7,7 @@ public class Player {
     ArrayList<Node> nodes=new ArrayList<>();
     Mancala mancala=new Mancala();
     Player opponent;
+    int stolenGems;
 
     public Player() {
         for (int i=0;i<6;i++){

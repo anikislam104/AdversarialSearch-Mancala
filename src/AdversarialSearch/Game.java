@@ -11,7 +11,6 @@ public class Game {
     static int maxAdditionalMove=0;
     static int minAdditionalMove=0;
     int heuristicValue;
-    int stolenGems;
     Game parent;
     int additionalMove;
     static ArrayList<Game> games=new ArrayList<>();
@@ -20,7 +19,7 @@ public class Game {
         this.min = min;
         max.opponent=min;
         currentPlayer=1;
-        stolenGems=0;
+        //stolenGems=0;
         additionalMove=0;
     }
 
@@ -78,7 +77,7 @@ public class Game {
                 game.currentPlayer=1;
                 game.additionalMove++;
                 //maxAdditionalMove++;
-                game.stolenGems=0;
+                game.max.stolenGems=0;
                 return 1;
             }
 
@@ -89,14 +88,14 @@ public class Game {
                 game.max.mancala.gems+=1+gemTaken;
                 game.currentPlayer=2;
                 game.additionalMove=0;
-                game.stolenGems=game.min.nodes.get(currentPos).gems;
+                game.max.stolenGems=game.min.nodes.get(currentPos).gems;
                 return 0;
             }
 
             else {
                 game.currentPlayer=2;
                 game.additionalMove=0;
-                game.stolenGems=0;
+                game.max.stolenGems=0;
                 return 0;
             }
         }
@@ -147,7 +146,7 @@ public class Game {
                 game.currentPlayer=2;
                 game.additionalMove++;
                 //maxAdditionalMove++;
-                game.stolenGems=0;
+                game.min.stolenGems=0;
                 return 1;
             }
 
@@ -158,7 +157,7 @@ public class Game {
                 game.min.mancala.gems+=1+gemTaken;
                 game.currentPlayer=1;
                 game.additionalMove=0;
-                game.stolenGems=game.max.nodes.get(currentPos).gems;
+                game.min.stolenGems=game.max.nodes.get(currentPos).gems;
                // System.out.println(max.nodes.get(1).gems);
                 return 0;
 
@@ -167,7 +166,7 @@ public class Game {
             else {
                 game.currentPlayer=1;
                 game.additionalMove=0;
-                game.stolenGems=0;
+                game.min.stolenGems=0;
                 return 0;
             }
         }
@@ -395,23 +394,14 @@ public class Game {
         else if(num==3){
             return this.heuristicTWO(game,40,30)+30*maxAdditionalMove;
         }
-        else if (num==4){
-            return this.heuristicTWO(game,40,30)+70*game.additionalMove;
-        }
+//        else if (num==4){
+//            return this.heuristicTWO(game,40,30)+70*game.additionalMove;
+//        }
         else if (num==5){
-            int s=0;
-            for(int i=0;i<6;i++){
-                if(max.nodes.get(i).gems<7-i){
-                    s+=max.nodes.get(i).gems;
-                }
-                else{
-                    s+=6-i;
-                }
-            }
-            return s+ game.stolenGems;
+            return game.max.stolenGems-game.min.stolenGems;
         }
         else if (num==6){
-            int s=0;
+            int s=0,s1=0;
             for(int i=0;i<6;i++){
                 if(max.nodes.get(i).gems<7-i){
                     s+=max.nodes.get(i).gems;
@@ -420,10 +410,18 @@ public class Game {
                     s+=6-i;
                 }
             }
-            return s;
+            for(int i=0;i<6;i++){
+                if(min.nodes.get(i).gems>i){
+                    s1+=i;
+                }
+                else{
+                    s1+=min.nodes.get(i).gems;
+                }
+            }
+            return s-s1;
         }
-        else if (num==7){
-            return this.heuristicTWO(game,40,30)+30*this.hasFreeMoves(game);
+        else if (num==4){
+            return this.hasFreeMoves(game);
         }
         return 0;
     }

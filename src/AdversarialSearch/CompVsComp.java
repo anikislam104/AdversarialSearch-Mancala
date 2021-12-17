@@ -25,7 +25,7 @@ public class CompVsComp {
                 currentPlayer=1;
             }
             else {
-                currentPlayer=1;
+                currentPlayer=2;
             }
             int loop=0;
             while (true) {
@@ -47,6 +47,7 @@ public class CompVsComp {
                 //System.out.println("game:" + loop + "  " + currentPlayer);
                 int a = game.alphaBeta(game, Integer.MIN_VALUE, Integer.MAX_VALUE, currentPlayer, depth,h);
                 //System.out.println("heuristic value "+a);
+                Game.maxAdditionalMove+=game.hasFreeMoves(game);
                 for (int i = 0; i < Game.games.size(); i++) {
                     if (Game.games.get(i).parent == game && Game.games.get(i).heuristicValue == a) {
                         Game.games.get(i).printGameBoard();
@@ -58,8 +59,7 @@ public class CompVsComp {
                 }
                 loop++;
             }
-            Game.maxAdditionalMove=0;
-            Game.minAdditionalMove=0;
+
         }
         System.out.println("maxWin= "+maxWin);
         System.out.println("minWIn= "+minWin);

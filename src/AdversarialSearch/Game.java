@@ -77,7 +77,7 @@ public class Game {
             if (currentPos == 6){
                 game.currentPlayer=1;
                 game.additionalMove++;
-                maxAdditionalMove++;
+                //maxAdditionalMove++;
                 game.stolenGems=0;
                 return 1;
             }
@@ -146,7 +146,7 @@ public class Game {
             if (currentPos == -1){
                 game.currentPlayer=2;
                 game.additionalMove++;
-                maxAdditionalMove++;
+                //maxAdditionalMove++;
                 game.stolenGems=0;
                 return 1;
             }
@@ -393,12 +393,7 @@ public class Game {
             this.heuristicTWO(game,70,70);
         }
         else if(num==3){
-            if (game.currentPlayer==1){
-                return this.heuristicTWO(game,40,30)+60*maxAdditionalMove;
-            }
-            else {
-                return this.heuristicTWO(game,40,30)+60*minAdditionalMove;
-            }
+            return this.heuristicTWO(game,40,30)+30*maxAdditionalMove;
         }
         else if (num==4){
             return this.heuristicTWO(game,40,30)+70*game.additionalMove;
@@ -428,23 +423,7 @@ public class Game {
             return s;
         }
         else if (num==7){
-            int anyAdditionalMove=0;
-            if(game.currentPlayer==1) {
-                for (int i = 0; i < 6; i++) {
-                    if (game.max.nodes.get(i).gems==6-i){
-                        anyAdditionalMove++;
-                    }
-                }
-                return this.heuristicTWO(game,40,30)+70*anyAdditionalMove;
-            }
-            else {
-                for (int i = 0; i < 6; i++) {
-                    if (game.max.nodes.get(i).gems==6-i){
-                        anyAdditionalMove++;
-                    }
-                }
-                return this.heuristicTWO(game,40,40)+10*anyAdditionalMove;
-            }
+            return this.heuristicTWO(game,40,30)+30*this.hasFreeMoves(game);
         }
         return 0;
     }
@@ -465,6 +444,17 @@ public class Game {
                 games.get(i).heuristicValue=h;
             }
         }
+    }
+
+    int hasFreeMoves(Game game){
+        int anyAdditionalMove=0;
+
+            for (int i = 0; i < 6; i++) {
+                if (game.max.nodes.get(i).gems==6-i){
+                    anyAdditionalMove++;
+                }
+            }
+            return anyAdditionalMove;
     }
 
 

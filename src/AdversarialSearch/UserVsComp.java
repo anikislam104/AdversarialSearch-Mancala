@@ -17,7 +17,7 @@ public class UserVsComp {
             System.out.println("6.Number of stolen stones");
             System.out.println("Which Heuristic:");
             int h=d.nextInt();
-            int maxWin=0,minWin=0;
+            int maxWin=0,minWin=0,draw=0;
             Player max=new Player();
             Player min=new Player();
             Game game=new Game(max,min);
@@ -29,7 +29,11 @@ public class UserVsComp {
                 if (game.isGameOver()) {
                     if (game.max.mancala.gems > game.min.mancala.gems) {
                         maxWin++;
-                    } else {
+                    }
+                    else if(game.max.mancala.gems == game.min.mancala.gems){
+                        draw++;
+                    }
+                    else {
                         minWin++;
                     }
                     break;
@@ -73,8 +77,11 @@ public class UserVsComp {
                 loop++;
             }
         game.printGameBoard();
-        if(maxWin==0){
+        if(minWin==1){
             System.out.println("You won");
+        }
+        else if(draw==1){
+            System.out.println("Match drawn");
         }
         else{
             System.out.println("You lost");

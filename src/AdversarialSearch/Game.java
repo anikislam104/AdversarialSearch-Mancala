@@ -146,7 +146,7 @@ public class Game {
             if (currentPos == -1){
                 game.currentPlayer=2;
                 game.additionalMove++;
-                minAdditionalMove++;
+                maxAdditionalMove++;
                 game.stolenGems=0;
                 return 1;
             }
@@ -426,6 +426,25 @@ public class Game {
                 }
             }
             return s;
+        }
+        else if (num==7){
+            int anyAdditionalMove=0;
+            if(game.currentPlayer==1) {
+                for (int i = 0; i < 6; i++) {
+                    if (game.max.nodes.get(i).gems==6-i){
+                        anyAdditionalMove++;
+                    }
+                }
+                return this.heuristicTWO(game,40,30)+70*anyAdditionalMove;
+            }
+            else {
+                for (int i = 0; i < 6; i++) {
+                    if (game.max.nodes.get(i).gems==6-i){
+                        anyAdditionalMove++;
+                    }
+                }
+                return this.heuristicTWO(game,40,40)+10*anyAdditionalMove;
+            }
         }
         return 0;
     }

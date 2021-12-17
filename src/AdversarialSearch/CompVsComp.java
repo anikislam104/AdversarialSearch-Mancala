@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class CompVsComp {
     public static void main(String[] args) {
-        int maxWin=0,minWin=0;
+        int maxWin=0,minWin=0,draw=0;
         System.out.println("Input depth");
         Scanner scanner=new Scanner(System.in);
         int depth=scanner.nextInt();
@@ -34,7 +34,11 @@ public class CompVsComp {
                     if (game.max.mancala.gems > game.min.mancala.gems) {
                         System.out.println("Max won");
                         maxWin++;
-                    } else {
+                    }
+                    else if(game.max.mancala.gems == game.min.mancala.gems){
+                        draw++;
+                    }
+                    else {
                         System.out.println("Min won");
                         minWin++;
                     }
@@ -59,6 +63,7 @@ public class CompVsComp {
         }
         System.out.println("maxWin= "+maxWin);
         System.out.println("minWIn= "+minWin);
+        System.out.println("Draw= "+draw);
     }
 
 }

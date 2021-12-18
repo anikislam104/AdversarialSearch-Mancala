@@ -389,10 +389,10 @@ public class Game {
             return game.max.mancala.gems-game.min.mancala.gems;
         }
         else if (num==2){
-            this.heuristicTWO(game,70,70);
+            this.heuristicTWO(game,50,50);
         }
         else if(num==3){
-            return this.heuristicTWO(game,40,30)+30*maxAdditionalMove;
+            return this.heuristicTWO(game,50,10)+40*maxAdditionalMove;
         }
 //        else if (num==4){
 //            return this.heuristicTWO(game,40,30)+70*game.additionalMove;
@@ -454,6 +454,7 @@ public class Game {
             }
             return anyAdditionalMove;
     }
+
 
 
 }

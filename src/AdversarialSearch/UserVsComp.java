@@ -60,7 +60,7 @@ public class UserVsComp {
                     System.out.println();
                     System.out.println("Currently playing:User");
                     System.out.println();
-                    System.out.println("Choose a bin(0-5)");
+                    System.out.println("Choose a bin(0-5)(left to right)");
                     System.out.println();
                     Scanner scanner=new Scanner(System.in);
                     int input=scanner.nextInt();

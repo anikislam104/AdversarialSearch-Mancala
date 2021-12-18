@@ -34,7 +34,7 @@ public class CompVsComp {
                         if (x % 2 == 0) {
                             currentPlayer = 1;
                         } else {
-                            currentPlayer = 2;
+                            currentPlayer = 1;
                         }
                         int loop = 0;
                         while (true) {

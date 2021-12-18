@@ -389,10 +389,10 @@ public class Game {
             return game.max.mancala.gems-game.min.mancala.gems;
         }
         else if (num==2){
-            this.heuristicTWO(game,50,50);
+            this.heuristicTWO(game,70,30);
         }
         else if(num==3){
-            return this.heuristicTWO(game,50,10)+40*maxAdditionalMove;
+            return this.heuristicTWO(game,13,1)+9*maxAdditionalMove;
         }
 //        else if (num==4){
 //            return this.heuristicTWO(game,40,30)+70*game.additionalMove;
@@ -455,6 +455,95 @@ public class Game {
             return anyAdditionalMove;
     }
 
+    int alphaBetaReverse(Game game,int alpha,int beta,int curPlayer,int depth,int h){
+        if(game.isGameOver() || depth==0){
+            return game.heuristics(h,game);
+        }
 
+        if(curPlayer==1){
+            int bestValue=Integer.MIN_VALUE;
+            int[] arr = new int[] {0,1,5,4,3,2};
+            arr=shuffleArray(arr);
+            ArrayList<Game> children=new ArrayList<>();
+            int count=0;
+            for (int j=0;j<6;j++){
+                Game save=new Game();
+                Player temp1=new Player();
+                Player temp2=new Player();
+                for (int i=0;i<6;i++){
+                    temp1.nodes.get(i).gems=game.max.nodes.get(i).gems;
+                    temp2.nodes.get(i).gems=game.min.nodes.get(i).gems;
+                }
+                temp1.mancala.gems=game.max.mancala.gems;
+                temp2.mancala.gems=game.min.mancala.gems;
+                save.max=temp1;
+                save.min=temp2;
+                if(!save.checkZeroAtPosition(1, 5-j)) {
+                    children.add(save.getChildAtPosition(save, 5-j, 1));
+                    children.get(count).parent=game;
+                    children.get(count).additionalMove=game.additionalMove;
+                    games.add(children.get(count));
+                    //children.get(count).printGameBoard();
+                    count++;
+                }
+            }
+            //games.add(game);
+            for (int i=0;i<children.size();i++){
+                int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1,h);
+//                children.get(i).heuristicValue=value;
+                children.get(i).setHeuristicValue(children.get(i),game,value);
+//                System.out.println(value);
+//                games.add(children.get(i));
+
+                bestValue=Math.max(bestValue,value);
+                alpha=Math.max(alpha,bestValue);
+                if(beta<=alpha){
+                    break;
+                }
+
+            }
+            return bestValue;
+        }
+        else {
+            int bestValue=Integer.MAX_VALUE;
+            int[] arr = new int[] { 2,1,0,4,5,3};
+            arr=shuffleArray(arr);
+            ArrayList<Game> children=new ArrayList<>();
+            int count=0;
+            for (int j=0;j<6;j++){
+                Game save=new Game();
+                Player temp1=new Player();
+                Player temp2=new Player();
+                for (int i=0;i<6;i++){
+                    temp1.nodes.get(i).gems=game.max.nodes.get(i).gems;
+                    temp2.nodes.get(i).gems=game.min.nodes.get(i).gems;
+                }
+                temp1.mancala.gems=game.max.mancala.gems;
+                temp2.mancala.gems=game.min.mancala.gems;
+                save.max=temp1;
+                save.min=temp2;
+                if(!save.checkZeroAtPosition(2, 5-j)) {
+                    children.add(save.getChildAtPosition(save, 5-j, 2));
+                    children.get(count).parent=game;
+                    children.get(count).additionalMove=game.additionalMove;
+                    games.add(children.get(count));
+                    //children.get(count).printGameBoard();
+                    count++;
+                }
+            }
+            //games.add(game);
+            for (int i=0;i<children.size();i++){
+
+                int value=this.alphaBeta(children.get(i),alpha,beta,children.get(i).currentPlayer,depth-1,h);
+                children.get(i).setHeuristicValue(children.get(i),game,value);
+                bestValue=Math.min(bestValue,value);
+                beta=Math.min(beta,bestValue);
+                if (beta<=alpha){
+                    break;
+                }
+            }
+            return bestValue;
+        }
+    }
 
 }
